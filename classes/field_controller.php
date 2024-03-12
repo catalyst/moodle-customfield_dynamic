@@ -63,6 +63,13 @@ class field_controller extends \core_customfield\field_controller {
 
         $mform->addElement('advcheckbox', 'configdata[multiselect]', get_string('enablemultiselect', 'customfield_dynamic'),
          '', array('group' => 1), array(0, 1));
+
+        $fields = [
+            'value' => get_string('datafield:value', 'customfield_dynamic'),
+            'charvalue' => get_string('datafield:charvalue', 'customfield_dynamic'),
+        ];
+        $mform->addElement('select', 'configdata[datafield]', get_string('datafield', 'customfield_dynamic'), $fields);
+        $mform->addHelpButton('configdata[datafield]', 'datafield', 'customfield_dynamic');
     }
 
     /**
@@ -151,6 +158,28 @@ class field_controller extends \core_customfield\field_controller {
         } catch (\Exception $e) {
             $err['configdata[dynamicsql]'] = get_string('sqlerror', 'customfield_dynamic') . ': ' .$e->getMessage();
         }
+
+        try {
+            // Ensure the datafield is valid.
+            $newdatafield = $data['configdata']['datafield'];
+            if (!\core_customfield\data::has_property($newdatafield)) {
+                $err['configdata[datafield]'] = get_string('datafieldinvalid', 'customfield_dynamic', $newdatafield);
+            }
+
+            // Check if a new datafield is set and a migration is needed.
+            $prevdatafield = $this->get_configdata_property('datafield');
+            $migrate = $newdatafield !== $prevdatafield && $newdatafield !== 'value';
+
+            // If we have no errors and the field already exists, attempt to migrate values to match.
+            if (empty($err) && !empty($this->get('id')) && $migrate) {
+                $sql = "UPDATE {customfield_data} SET $newdatafield = value WHERE fieldid = :fieldid";
+                $params = ['fieldid' => $this->get('id')];
+                $DB->execute($sql, $params);
+            }
+        } catch (\Exception $e) {
+            $err['configdata[datafield]'] = get_string('datafielderror', 'customfield_dynamic') . ': ' . $e->getMessage();
+        }
+
         return $err;
     }
 }
