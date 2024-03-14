@@ -34,6 +34,12 @@ $string['specificsettings'] = 'Dynamic Dropdown menu field settings';
 $string['enablemultiselect'] = 'Enable Multi Select';
 $string['autocomplete'] = 'Enable auto-complete mode';
 $string['autocomplete_help'] = 'Instead of using simple select field, enable autocomplete mode';
+$string['datafield'] = 'Datafield type';
+$string['datafield_help'] = 'Determines where the custom field data is stored. Char is required to allow sorting in report builder.';
+$string['datafield:value'] = 'Text';
+$string['datafield:charvalue'] = 'Char';
+$string['datafielderror'] = 'Error attempting to migrate current values to new datafield type';
+$string['datafieldinvalid'] = 'Invalid datafield: {$a}';
 $string['defaultvalue'] = 'Default value';
 $string['defaultvalue_help'] = 'For multiselect enter multiple values as comma separated otherwise enter single value';
 

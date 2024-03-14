@@ -42,7 +42,7 @@ class data_controller extends \core_customfield\data_controller {
      * @return string
      */
     public function datafield() : string {
-        return 'value';
+        return $this->get_field()->get_configdata_property('datafield') ?? 'value';
     }
 
     /**
