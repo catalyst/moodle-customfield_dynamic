@@ -1,3 +1,5 @@
+![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/catalyst/moodle-tool_heartbeat/ci.yml?branch=master&label=ci)
+
 # moodle-customfield_dynamic
  This is a course customfield plugin
 ## Installation
